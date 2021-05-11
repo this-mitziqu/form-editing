@@ -9,7 +9,8 @@
 
 <table border="2">
   <tr>
-    <td>姓名.</td>
+    <td>姓名</td>
+    <td>id</td>
     <td>学校</td>
     <td>所属申请</td>
     <td>状态</td>
@@ -29,11 +30,41 @@ if(!$db)
 }
 
 $sql = "SELECT * FROM track
-(`appName`, `trackInfo`, `submission`,`user_id`)
+( `trackInfo`, `submission`,`user_id`)
 VALUES
-('$appName', '$trackInfo', '$submission', '$user_id')"; 
+('$trackInfo', '$submission', '$user_id')"; 
 
-mysqli_query($connection, $sql);
+$records = mysqli_query($connection, $sql);
 $connection ->close()
 
+
+
+while($data = mysqli_fetch_array($records))
+{
+    $json_string = data['submision'];
+    $json = json_decode($json_string);
+    $name = $json["q1"];
+    $school = $json["q3"]
+    $apps = $json["q10"]
+
+
+    foreach($apps as $app){
+    ?>
+    
+  <tr>
+    <td><?php echo $name;?></td>
+    <td><?php echo $data['id']; ?></td>
+    <td><?php echo $school; ?></td>
+    <td><?php echo $app; ?></td>    
+    <td><?php echo $data['trackInfo']; ?></td> 
+  </tr>	
+    }
+
+<?php
+}
 ?>
+
+</table>
+
+</body>
+</html>
