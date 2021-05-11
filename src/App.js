@@ -194,19 +194,19 @@ function App() {
       
           {
             Header: '姓名',
-            accessor: 'age',
+            accessor: 'name',
           },
           {
             Header: '学校',
-            accessor: 'visits',
+            accessor: 'school',
           },
           {
             Header: '所属申请',
-            accessor: 'status',
+            accessor: 'app',
           },
           {
             Header: '状态',
-            accessor: 'progress',
+            accessor: 'status',
           },
        
     ],
