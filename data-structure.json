@@ -1,0 +1,71 @@
+[
+    {
+        "steps": [
+            {
+                "stepName": "已提交报名",
+                "stepStatus": "true"
+            },
+            {
+                "stepName": "报名表已通过审核",
+                "stepStatus": "false"
+            },
+            {
+                "stepName": "已面试",
+                "stepStatus": "false"
+            },
+            {
+                "stepName": "已录取",
+                "stepStatus": "false"
+            }
+        ],
+        "status": 1,
+        "branchName": "身份与社会",
+        "lastUpdateTime": "2021-05-14 01:03:37"
+    },
+    {
+        "steps": [
+            {
+                "stepName": "已提交报名",
+                "stepStatus": "true"
+            },
+            {
+                "stepName": "报名表已通过审核",
+                "stepStatus": "false"
+            },
+            {
+                "stepName": "已面试",
+                "stepStatus": "false"
+            },
+            {
+                "stepName": "已录取",
+                "stepStatus": "false"
+            }
+        ],
+        "status": 1,
+        "branchName": "危机与选择",
+        "lastUpdateTime": "2021-05-14 01:03:37"
+    },
+    {
+        "steps": [
+            {
+                "stepName": "已提交报名",
+                "stepStatus": "true"
+            },
+            {
+                "stepName": "报名表已通过审核",
+                "stepStatus": "false"
+            },
+            {
+                "stepName": "已面试",
+                "stepStatus": "false"
+            },
+            {
+                "stepName": "已录取",
+                "stepStatus": "false"
+            }
+        ],
+        "status": 1,
+        "branchName": "阅读世界",
+        "lastUpdateTime": "2021-05-14 01:03:37"
+    }
+]
