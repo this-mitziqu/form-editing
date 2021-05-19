@@ -1,117 +1,101 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useTable } from 'react-table'
+// https://www.pluralsight.com/guides/creating-dynamic-editable-tables-with-reactjs
 
-const Styles = styled.div`
-  padding: 1rem;
+import React, { useState } from 'react'
+import { Container, Table, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
-  table {
-    border-spacing: 0;
-    border: 1px solid black;
+// function mapTable(data) {
+//   if (Array.isArray(data)) {
+//   return data.map((app, appIdx) => {
+//     return(
+//     <Table striped bordered hover responsive>
+//       <tr>
+//         {mapTable(app)}
+//       </tr>
+//     </Table>
+//     )
+//   })
+// } else {
+//     return(
+//     <td>{Object.keys(data).map((val) => {
+//       return(
+//         {mapTable(data)}
+//       )
+//     })}
+//   </td>)
+// }
+// }
 
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
 
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
-      :last-child {
-        border-right: 0;
-      }
-    }
+class Editable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.result,
+      trackInfo: JSON.parse(props.result.trackInfo),
+      inEditMode: false,
+    };
   }
-`
 
-function Table({ columns, data }) {
-  // Use the state and functions returned from useTable to build your UI
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+  editing() {
 
-  // Render the UI for your table
-  return (
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row)
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
-  )
-}
+  }
+  
+  mapTable(data, trackInfo) {
+    if (Array.isArray(trackInfo)) {
+    return trackInfo.map((app, appIdx) => {
+      return(
+      <Table striped bordered hover responsive>
+        <tr>
+          <th>姓名</th>
+          <th>学校</th>
+          <th>类别</th>
+          <th>最近更新时间</th>
+          <th>步骤</th>
+          <th>编辑</th>
+        </tr>
+        <tr>
+            <td>{data.name}</td>
+            <td>{data.school}</td>
+            <td>{app.branchName}</td>
+            <td>{app.lastUpdateTime}</td>
+            <td className="p-0 w-50">
+              <Table striped hover responsive className="m-0">
+                <tr>
+                  <th>进度</th>
+                  <th>状态</th>
+  
+                </tr>
+                  {app.steps.map((step,idx) => {
+                    return(
+                      <tr key={idx}>
+                        <td key={"stepName"+idx}>{step.stepName}</td>
+                        <td key={"stepStatus"+idx}>{step.stepStatus}</td>
+                      </tr>
+                      )
+                  })}
+              </Table>
+            </td>
+            <td><Button variant="primary" onClick={()=>this.editing}>编辑</Button></td>
+        </tr>
+      </Table>
+      )
+    })
+  }
+  }
 
-function Editable(props) {
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Name',
-        columns: [
-          {
-            Header: '姓名',
-            accessor: 'name',
-          },
-          {
-            Header: '学校',
-            accessor: 'school',
-          },
-        ],
-      },
-      // {
-      //   Header: 'Info',
-      //   columns: [
-      //     {
-      //       Header: 'Status',
-      //       accessor: 'status',
-      //     },
-      //     {
-      //       Header: 'Profile Progress',
-      //       accessor: 'progress',
-      //     },
-      //   ],
-      // },
-    ],
-    []
-  )
 
-  const data = React.useMemo(()=>props.data, [])
-
-  return (
-    <Styles>
-      <Table columns={columns} data={data} />
-    </Styles>
-  )
+  render() {
+    const {data, trackInfo} = this.state;
+    return (
+      <Container>
+        {this.mapTable(data, trackInfo)}
+        <div className="text-center">
+          <Button variant="primary" onClick={() => this.props.onClick()}>返回列表</Button>
+        </div>
+      </Container>
+    )
+  }
 }
 
 export default Editable

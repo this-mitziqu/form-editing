@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import Editable from './Editable';
+import EditableTable from './EditableTable';
 import InputForm from './InputForm';
+import ResultTable from './ResultTable';
 
 
 class App extends React.Component {
@@ -9,7 +11,7 @@ class App extends React.Component {
         this.state = {
           result: {},
           showTable: false,
-          CardIndex: false,
+          EditableIndex: false,
         };
     }
 
@@ -18,12 +20,17 @@ class App extends React.Component {
     }
 
     reset = () => {
-        this.setState({result: {}, showTable: false, CardIndex: false});
+        this.setState({result: {}, showTable: false, EditableIndex: false});
+    }
+
+    showEditable = (i) => {
+        console.log(i);
+        this.setState({showTable: false, EditableIndex: i});
     }
 
     render() {
-        const {showTable} = this.state;
-        // const { result, showTable, CardIndex } = this.state;
+        const {showTable, EditableIndex} = this.state;
+        // const { result, showTable, EditableIndex } = this.state;
         return(
             <>
                 <InputForm
@@ -31,8 +38,15 @@ class App extends React.Component {
                 reset = {this.reset}
                 />
                 {
-                    showTable?(<Editable
-                    data = {this.state.result}
+                    showTable?(<ResultTable
+                    result = {this.state.result}
+                    showEditable = {this.showEditable}
+                    />):null
+                }
+                {
+                    EditableIndex?(<EditableTable
+                        result = {this.state.result[EditableIndex - 1]}
+                        onClick = {()=>this.setState({showTable: true, EditableIndex: false})} 
                     />):null
                 }
             </>
