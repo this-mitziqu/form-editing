@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+tr.ant-table-expanded-row > td {
+  background: #f1f1f1 !important;
+}

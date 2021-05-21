@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
-import Editable from './Editable';
-import EditableTable from './EditableTable';
+import InfoTable from './InfoTable';
 import InputForm from './InputForm';
 import ResultTable from './ResultTable';
 
@@ -44,9 +43,9 @@ class App extends React.Component {
                     />):null
                 }
                 {
-                    EditableIndex?(<EditableTable
+                    EditableIndex?(<InfoTable
                         result = {this.state.result[EditableIndex - 1]}
-                        onClick = {()=>this.setState({showTable: true, EditableIndex: false})} 
+                        goBack = {()=>this.setState({showTable: true, EditableIndex: false})} 
                     />):null
                 }
             </>
