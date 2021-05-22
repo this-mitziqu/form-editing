@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Input, InputNumber, Popconfirm, Form, Typography, Result } from 'antd';
+import { Table } from 'antd';
 import 'antd/dist/antd.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
@@ -15,9 +15,6 @@ import Loading from './Loading'
     const [syncing, setSyncing] = useState(false);
 
     const getSteps = (steps, idx) => {
-      // console.log("success")
-      // console.log(steps)
-      // console.log(idx)
       var newInfo = [...trackInfo];
       newInfo[idx].steps = steps;
       var d = new Date();
@@ -31,7 +28,6 @@ import Loading from './Loading'
         id: result.id
       }
         ).then((response) => {
-          console.log(response.data)
           setSyncing(false);
         //   if (typeof(response.data) == "string" || response.data.length === 0) {
         //     alert("你查询的ID不存在");

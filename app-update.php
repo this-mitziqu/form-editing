@@ -17,7 +17,7 @@
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ss', $trackInfo, $id);
     $stmt->execute();
-    printf("Error: %s.\n", $stmt->error);
+    // printf("Error: %s.\n", $stmt->error);
     echo $stmt->affected_rows;
     $stmt->close();
 

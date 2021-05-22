@@ -1,60 +1,63 @@
-import React, { Fragment } from 'react'
-import { Container } from 'react-bootstrap';
-import Footer from './Footer';
-import InfoTable from './InfoTable';
-import InputForm from './InputForm';
-import ResultTable from './ResultTable';
+import React, { Component } from 'react'
+import { Button, Input, Form } from 'antd';
+import 'antd/dist/antd.css';
+// import 'bootstrap/dist/css/bootstrap.css';
+import MainApp from './MainApp';
 
 
-class App extends React.Component {
+class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          result: {},
-          showTable: false,
-          EditableIndex: false,
-        };
+            value: '',
+            passIsCorr: false,
+            validateStatus: '',
+          };
+        this.handleChange = this.handleChange.bind(this);
+      }
+
+    handleChange(e) {
+        e.preventDefault();
+        this.setState({value: e.target.value});
     }
 
-    handleResult = (response) => {
-        this.setState({result: response.data, showTable: true});
-    }
-
-    reset = () => {
-        this.setState({result: {}, showTable: false, EditableIndex: false});
-    }
-
-    showEditable = (i) => {
-        console.log(i);
-        this.setState({showTable: false, EditableIndex: i});
+    handleSubmit = (e) => {
+        e.preventDefault();
+        if(this.state.value==='veritas321') {
+            this.setState({passIsCorr: true})
+        } else {
+            this.setState({validateStatus: 'error'})
+        }
     }
 
     render() {
-        const {showTable, EditableIndex} = this.state;
-        // const { result, showTable, EditableIndex } = this.state;
         return(
-            <Container fluid className="min-vh-100 px-0 d-flex flex-column justify-content-between">
-                <InputForm
-                handleResult = {this.handleResult}
-                reset = {this.reset}
-                />
-                {
-                    showTable?(<ResultTable
-                    result = {this.state.result}
-                    showEditable = {this.showEditable}
-                    />):null
-                }
-                {
-                    EditableIndex?(<InfoTable
-                        result = {this.state.result[EditableIndex - 1]}
-                        goBack = {()=>this.setState({showTable: true, EditableIndex: false})} 
-                    />):null
-                }
-                <Footer />
-            </Container>
-        )
-    }
+            <>
+            {this.state.passIsCorr?
+            <MainApp/>:
+            <div className="d-flex flex-column justify-content-center vh-100">
+                <Form layout="inline" className='justify-content-center'>
+                        <Form.Item
+                        label="请输入密码："
+                        validateStatus= {this.state.validateStatus}
+                        className="w-50"
+                        >
+                        <Input.Password 
+                                placeholder="请输入密码" 
+                                onChange={this.handleChange}
+                                onPressEnter={this.handleSubmit}
+                            />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" onClick={this.handleSubmit}>
+                                验证
+                            </Button>
+                        </Form.Item>
+                </Form>
+            </div>       
+            }
+            </>
+        )}
 }
-
 
 export default App;

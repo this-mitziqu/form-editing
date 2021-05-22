@@ -9,7 +9,7 @@ class InputForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Z4qXFxc3Ej',
+      value: '',
       loading: false
     };
     this.handleChange = this.handleChange.bind(this);

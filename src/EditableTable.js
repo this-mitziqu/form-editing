@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Input, InputNumber, Select, Popconfirm, Form, Typography } from 'antd';
+import { Table, Input, Select, Popconfirm, Form, Typography, Button } from 'antd';
 import 'antd/dist/antd.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import axios from 'axios';
-import { Container, Button } from 'react-bootstrap';
+// import { Container } from 'react-bootstrap';
 
 const { Option } = Select;
 const EditableCell = ({
@@ -119,12 +118,13 @@ const EditableTable = (props) => {
     };
 
     const footer = () => {
-        return (<a
-            href="#!"
-            onClick={() => add()}
-        >
-            增加一行
-        </a>)
+        return (
+            <Button 
+                type="link"
+                onClick={() => add()}
+            >
+                增加一行
+            </Button>)
     }
 
     const stepColumns = [
@@ -139,6 +139,17 @@ const EditableTable = (props) => {
             dataIndex: 'stepStatus',
             // width: '15%',
             editable: true,
+            render: (text) => {
+                if (text === 'true') {
+                    return("已通过")
+                } else if (text === 'false') {
+                    return('未通过')
+                } else if (text === 'skipped') {
+                    return('跳过')
+                } else if (text === 'rejected') {
+                    return('拒绝')
+                }
+            }
         },
         {
             title: '操作',
@@ -148,22 +159,16 @@ const EditableTable = (props) => {
                 const editable = isEditing(record);
                 return editable ? (
                     <span>
-                        <a
-                            href="#!"
+                        <Typography.Link
                             onClick={() => save(record.key)}
-                            style={{
-                                marginRight: 8,
-                            }}
                         >
                             保存
-                    </a>
+                    </Typography.Link>
                         <Popconfirm title="确定要删除吗？" onConfirm={() => del(record.key)}>
-                            <a style={{
-                                marginRight: 8,
-                            }}>删除</a>
+                            <Button danger type="link">删除</Button>
                         </Popconfirm>
                         <Popconfirm title="确定要取消吗？" onConfirm={cancel}>
-                            <a>取消</a>
+                            <Typography.Link>取消</Typography.Link>
                         </Popconfirm>
                     </span>
                 ) : (
