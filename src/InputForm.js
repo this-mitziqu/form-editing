@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import axios from 'axios'
 import { Form, InputGroup, Button, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+import Loading from './Loading'
 
 class InputForm extends React.Component {
   constructor(props) {
@@ -72,7 +73,7 @@ class InputForm extends React.Component {
     </Form>
   <div>
     {
-      this.state.loading?(<div>查询中...</div>):null
+      this.state.loading?<Loading message="查询中..." />:null
     }
   </div>
   </Container>

@@ -15,3 +15,24 @@ code {
 tr.ant-table-expanded-row > td {
   background: #f1f1f1 !important;
 }
+
+th.ant-table-cell {
+  font-weight: bold !important;
+}
+
+.loading {
+  position: fixed !important;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background: #dddddd;
+  opacity: 0.7 !important;
+  z-index: 999;
+}
+
+.loading span, .loading div {
+  position: relative;
+  top: 50%;
+  text-align: center;
+}

@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react'
+import { Container } from 'react-bootstrap';
+import Footer from './Footer';
 import InfoTable from './InfoTable';
 import InputForm from './InputForm';
 import ResultTable from './ResultTable';
@@ -31,7 +33,7 @@ class App extends React.Component {
         const {showTable, EditableIndex} = this.state;
         // const { result, showTable, EditableIndex } = this.state;
         return(
-            <>
+            <Container fluid className="min-vh-100 px-0 d-flex flex-column justify-content-between">
                 <InputForm
                 handleResult = {this.handleResult}
                 reset = {this.reset}
@@ -48,7 +50,8 @@ class App extends React.Component {
                         goBack = {()=>this.setState({showTable: true, EditableIndex: false})} 
                     />):null
                 }
-            </>
+                <Footer />
+            </Container>
         )
     }
 }
