@@ -23,7 +23,7 @@ class InputForm extends React.Component {
   handleSubmit(event) {
     this.props.reset();
     this.setState({loading: true});
-    axios.post('https://apply.veritaschina.org/api/track.php', {
+    axios.post('https://apply.veritaschina.org/api/app-track.php', {
       query: this.state.value
     }
       ).then((response) => {

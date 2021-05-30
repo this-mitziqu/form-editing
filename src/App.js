@@ -38,7 +38,6 @@ class App extends Component {
             <div className="d-flex flex-column justify-content-center vh-100">
                 <Form layout="inline" className='justify-content-center'>
                         <Form.Item
-                        label="请输入密码："
                         validateStatus= {this.state.validateStatus}
                         className="w-50"
                         >

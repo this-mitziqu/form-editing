@@ -18,7 +18,7 @@ const EditableCell = ({
     const inputNode = inputType === 'select' ? 
     <Select>
         <Option value="true">已通过</Option>
-        <Option value="false">未通过</Option>
+        <Option value="false">处理中</Option>
         <Option value="skipped">跳过</Option>
         <Option value="rejected">拒绝</Option>
     </Select> : 
@@ -129,6 +129,15 @@ const EditableTable = (props) => {
 
     const stepColumns = [
         {
+            title: '序号',
+            dataIndex: 'key',
+            // width: '40%',
+            editable: false,
+            render: (text) => {
+                return(<b> {parseInt(text)+1} </b>)
+            }
+        },
+        {
             title: '步骤',
             dataIndex: 'stepName',
             // width: '40%',
@@ -143,7 +152,7 @@ const EditableTable = (props) => {
                 if (text === 'true') {
                     return("已通过")
                 } else if (text === 'false') {
-                    return('未通过')
+                    return('处理中')
                 } else if (text === 'skipped') {
                     return('跳过')
                 } else if (text === 'rejected') {

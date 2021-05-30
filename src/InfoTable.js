@@ -28,6 +28,10 @@ import Loading from './Loading'
         id: result.id
       }
         ).then((response) => {
+          console.log(typeof(response.data))
+          if(typeof(response.data)==='number') {
+            alert("上传成功")
+          }
           setSyncing(false);
         //   if (typeof(response.data) == "string" || response.data.length === 0) {
         //     alert("你查询的ID不存在");
