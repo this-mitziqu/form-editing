@@ -14,11 +14,15 @@ import Loading from './Loading'
     const [trackInfo, setInfo] = useState(JSON.parse(result.trackInfo));
     const [syncing, setSyncing] = useState(false);
 
+    const renderTimeDigit = (input) => {
+      return ("0" + input).slice(-2);
+    }
+
     const getSteps = (steps, idx) => {
       var newInfo = [...trackInfo];
       newInfo[idx].steps = steps;
       var d = new Date();
-      newInfo[idx].lastUpdateTime = d.getFullYear() + '-' + (("0" + (d.getMonth()+1)).slice(-2)) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+      newInfo[idx].lastUpdateTime = d.getFullYear() + '-' + renderTimeDigit(d.getMonth()+1) + '-' + renderTimeDigit(d.getDate()) + ' ' + renderTimeDigit(d.getHours()) + ':' + renderTimeDigit(d.getMinutes()) + ':' + renderTimeDigit(d.getSeconds());
       setInfo(newInfo);
     }
 
@@ -28,9 +32,8 @@ import Loading from './Loading'
         id: result.id
       }
         ).then((response) => {
-          console.log(typeof(response.data))
           if(typeof(response.data)==='number') {
-            alert("上传成功")
+            alert("连接数据库成功，更新了"+ response.data +"行数据")
           }
           setSyncing(false);
         //   if (typeof(response.data) == "string" || response.data.length === 0) {

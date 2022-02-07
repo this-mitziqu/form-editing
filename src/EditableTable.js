@@ -15,14 +15,15 @@ const EditableCell = ({
     children,
     ...restProps
 }) => {
-    const inputNode = inputType === 'select' ? 
-    <Select>
-        <Option value="true">已通过</Option>
-        <Option value="false">处理中</Option>
-        <Option value="skipped">跳过</Option>
-        <Option value="rejected">拒绝</Option>
-    </Select> : 
-    <Input />;
+    const inputNode = inputType === 'select' ?
+        <Select>
+            <Option value="true">已通过</Option>
+            <Option value="ongoing">处理中</Option>
+            <Option value="rejected">拒绝</Option>
+            <Option value="skipped">跳过</Option>
+            <Option value="false">未处理</Option>
+        </Select> :
+        <Input />;
     return (
         <td {...restProps}>
             {editing ? (
@@ -59,7 +60,7 @@ const EditableTable = (props) => {
     useEffect(
         () => {
             props.getSteps(data, props.idx);
-        },[data]
+        }, [data]
     )
 
     const isEditing = (record) => record.key === editingKey;
@@ -119,12 +120,24 @@ const EditableTable = (props) => {
 
     const footer = () => {
         return (
-            <Button 
-                type="link"
-                onClick={() => add()}
-            >
-                增加一行
-            </Button>)
+            <>
+            <span>快速设置：</span>
+                <Typography.Link onClick={() => add()} className="me-2">
+                    增加一行
+                </Typography.Link>
+                <Popconfirm className="me-2" title="确定要设置为录取吗？" onConfirm={() => setData([{ stepName: "报名已提交", stepStatus: "true" }, { stepName: "录取", stepStatus: "true" }])}>
+                    <Typography.Link>录取</Typography.Link>
+                </Popconfirm>
+                <Popconfirm className="me-2" title="确定要设置为拒绝吗？" onConfirm={() => setData([{ stepName: "报名已提交", stepStatus: "true" }, { stepName: "拒绝", stepStatus: "rejected" }])}>
+                    <Typography.Link type="danger">拒绝</Typography.Link>
+                </Popconfirm>
+                <Popconfirm
+                    className="me-2"
+                    title="确定要设置为等待名单吗？"
+                    onConfirm={() => setData([{ stepName: "报名已提交", stepStatus: "true" }, { stepName: "等待名单", stepStatus: "true"}, { stepName: "结果", stepStatus: "ongoing" }])}>
+                    <Typography.Link type="warning">等待名单</Typography.Link>
+                </Popconfirm>
+            </>)
     }
 
     const stepColumns = [
@@ -134,7 +147,7 @@ const EditableTable = (props) => {
             // width: '40%',
             editable: false,
             render: (text) => {
-                return(<b> {parseInt(text)+1} </b>)
+                return (<b> {parseInt(text) + 1} </b>)
             }
         },
         {
@@ -150,13 +163,15 @@ const EditableTable = (props) => {
             editable: true,
             render: (text) => {
                 if (text === 'true') {
-                    return("已通过")
+                    return ("已通过")
                 } else if (text === 'false') {
-                    return('处理中')
+                    return ('未处理')
+                } else if (text === 'ongoing') {
+                    return ('处理中')
                 } else if (text === 'skipped') {
-                    return('跳过')
+                    return ('跳过')
                 } else if (text === 'rejected') {
-                    return('拒绝')
+                    return ('拒绝')
                 }
             }
         },
@@ -170,20 +185,23 @@ const EditableTable = (props) => {
                     <span>
                         <Typography.Link
                             onClick={() => save(record.key)}
+                            className="me-2"
                         >
                             保存
-                    </Typography.Link>
-                        <Popconfirm title="确定要删除吗？" onConfirm={() => del(record.key)}>
-                            <Button danger type="link">删除</Button>
-                        </Popconfirm>
+                        </Typography.Link>
                         <Popconfirm title="确定要取消吗？" onConfirm={cancel}>
                             <Typography.Link>取消</Typography.Link>
                         </Popconfirm>
                     </span>
                 ) : (
-                    <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                        修改
-                    </Typography.Link>
+                    <>
+                        <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)} className="me-2">
+                            修改
+                        </Typography.Link>
+                        <Popconfirm title="确定要删除吗？" onConfirm={() => del(record.key)}>
+                            <Typography.Link type="danger">删除</Typography.Link>
+                        </Popconfirm>
+                    </>
                 );
             },
         },
@@ -206,23 +224,23 @@ const EditableTable = (props) => {
         };
     });
 
-    return(
+    return (
         <Form form={form} component={false}>
-        <Table
-            components={{
-                body: {
-                    cell: EditableCell,
-                },
-            }}
-            bordered
-            dataSource={data}
-            columns={mergedColumns}
-            rowClassName="editable-row"
-            pagination={false}
-            rowKey="key"
-            footer={footer}
-        />
-    </Form>
+            <Table
+                components={{
+                    body: {
+                        cell: EditableCell,
+                    },
+                }}
+                bordered
+                dataSource={data}
+                columns={mergedColumns}
+                rowClassName="editable-row"
+                pagination={false}
+                rowKey="key"
+                footer={footer}
+            />
+        </Form>
     )
 }
 

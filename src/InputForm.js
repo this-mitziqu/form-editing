@@ -9,27 +9,34 @@ class InputForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      query: '',
+      type: '',
       loading: false
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
+    this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleQueryChange(event) {
+    this.setState({query: event.target.value});
+  }
+
+  handleTypeChange(event) {
+    this.setState({type: event.target.value});
   }
 
   handleSubmit(event) {
     this.props.reset();
     this.setState({loading: true});
-    axios.post('https://apply.veritaschina.org/api/app-track.php', {
-      query: this.state.value
+    axios.post('https://apply.veritaschina.org/api/app-search.php', {
+      query: this.state.query,
+      type: this.state.type
     }
       ).then((response) => {
         this.setState({loading: false});
         if (typeof(response.data) == "string" || response.data.length === 0) {
-          alert("你查询的ID不存在");
+          alert("你查询的信息不存在");
         } else {
           this.props.handleResult(response);
         }
@@ -56,20 +63,32 @@ class InputForm extends React.Component {
     <Form onSubmit={this.handleSubmit}>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-          <InputGroup.Text>#</InputGroup.Text>
+        <Form.Control 
+        as="select"
+        value={this.state.type || '请选择类别'} 
+        onChange={this.handleTypeChange}
+        >
+          <option disabled>请选择类别</option>
+          <option>姓名</option>
+          <option value='类别'>报名类别（如OL28）</option>
+          <option>报名id</option>
+          <option>个人id</option>
+        </Form.Control>
         </InputGroup.Prepend>
           <Form.Control
-            placeholder="请输入个人ID或申请/报名ID"
-            aria-label="请输入个人ID或申请/报名ID"
+            placeholder="请输入查找内容"
+            aria-label="请输入查找内容"
             aria-describedby="basic-addon2"
             type="text" 
-            value={this.state.value || ''} 
-            onChange={this.handleChange}
+            value={this.state.query || ''} 
+            onChange={this.handleQueryChange}
           />
         <InputGroup.Append>
           <Button variant="primary" type="submit" value="Submit">查询进度</Button>
         </InputGroup.Append>
       </InputGroup>
+
+
     </Form>
   <div>
     {

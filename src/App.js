@@ -23,7 +23,7 @@ class App extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if(this.state.value==='veritas321') {
+        if(this.state.value==='') {
             this.setState({passIsCorr: true})
         } else {
             this.setState({validateStatus: 'error'})

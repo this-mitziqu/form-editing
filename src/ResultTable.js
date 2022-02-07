@@ -1,13 +1,47 @@
 import React from 'react'
 import { Container, Table, Button } from 'react-bootstrap';
+import axios from 'axios'
 
 class ResultTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            loading: false,
+            submission: {}
         }       
     };
+
+
+    fetchAppDetail(id) {
+        axios.post('https://apply.veritaschina.org/api/app-fetch-detail.php', {
+            query: id,
+          }
+            ).then((response) => {
+              this.setState({loading: false});
+              console.log(response)
+              if (response.data.length === 0) {
+                alert("你查询的信息不存在");
+              } else {
+                this.setState({submission: JSON.parse(response.data[0])});
+              }
+            }
+            ).catch(function (error) {
+              alert("查询错误");
+              if (error.response) {
+                console.log(error.response.headers);
+              } 
+              else if (error.request) {
+                  console.log(error.request);
+              } 
+              else {
+                console.log(error.message);
+              }
+            console.log(error.config);
+          });
+        //   event.preventDefault(); 
+    }
+
+
 
     renderTable() {
         const result = this.props.result;
@@ -20,7 +54,8 @@ class ResultTable extends React.Component {
                     <td>{app.user_id}</td>
                     <td>{app.id}</td>
                     <td>{app.appName}</td>
-                    <td><Button variant="primary" onClick={()=>this.props.showEditable(i+1)}>点击查看</Button></td>
+                    <td>{JSON.parse(app.trackInfo)[0].steps[1].stepStatus}</td>
+                    <td><Button variant="primary" onClick={()=>{this.props.showEditable(i+1);this.fetchAppDetail(app.id)}}>点击查看</Button></td>
                     </tr>
             )
         })
