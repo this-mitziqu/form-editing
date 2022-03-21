@@ -3,7 +3,7 @@
     use PHPMailer\PHPMailer\Exception;
     require_once __DIR__ . '/../libs/vendor/autoload.php';
     require __DIR__ . '/../../../sec/pass.php';
-    require __DIR__ . '/../../../sec/email_adm.php';
+    require __DIR__ . '/../../../sec/email_con.php';
 
 //    $fromUrl="https://www.veritaschina.org/private/shudong/";
 

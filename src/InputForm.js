@@ -19,39 +19,40 @@ class InputForm extends React.Component {
   }
 
   handleQueryChange(event) {
-    this.setState({query: event.target.value});
+    this.setState({ query: event.target.value });
   }
 
   handleTypeChange(event) {
-    this.setState({type: event.target.value});
+    this.setState({ type: event.target.value });
   }
 
   handleSubmit(event) {
     this.props.reset();
-    this.setState({loading: true});
-    axios.post('https://apply.veritaschina.org/api/app-search.php', {
+    this.setState({ loading: true });
+    axios.post('https://apply.veritaschina.org/api/team2022-app-search.php', {
       query: this.state.query,
       type: this.state.type
     }
-      ).then((response) => {
-        this.setState({loading: false});
-        if (typeof(response.data) == "string" || response.data.length === 0) {
-          alert("你查询的信息不存在");
-        } else {
-          this.props.handleResult(response);
-        }
+    ).then((response) => {
+      this.setState({ loading: false });
+      // console.log(response.data);
+      if (typeof (response.data) == "string" || response.data.length === 0) {
+        alert("你查询的信息不存在");
+      } else {
+        this.props.handleResult(response);
       }
-      ).catch(function (error) {
-        alert("查询错误");
-        if (error.response) {
-          console.log(error.response.headers);
-        } 
-        else if (error.request) {
-            console.log(error.request);
-        } 
-        else {
-          console.log(error.message);
-        }
+    }
+    ).catch(function (error) {
+      alert("查询错误");
+      if (error.response) {
+        console.log(error.response.headers);
+      }
+      else if (error.request) {
+        console.log(error.request);
+      }
+      else {
+        console.log(error.message);
+      }
       console.log(error.config);
     });
     event.preventDefault();
@@ -60,42 +61,42 @@ class InputForm extends React.Component {
   render() {
     return (
       <Container className="py-5">
-    <Form onSubmit={this.handleSubmit}>
-      <InputGroup className="mb-3">
-        <InputGroup.Prepend>
-        <Form.Control 
-        as="select"
-        value={this.state.type || '请选择类别'} 
-        onChange={this.handleTypeChange}
-        >
-          <option disabled>请选择类别</option>
-          <option>姓名</option>
-          <option value='类别'>报名类别（如OL28）</option>
-          <option>报名id</option>
-          <option>个人id</option>
-        </Form.Control>
-        </InputGroup.Prepend>
-          <Form.Control
-            placeholder="请输入查找内容"
-            aria-label="请输入查找内容"
-            aria-describedby="basic-addon2"
-            type="text" 
-            value={this.state.query || ''} 
-            onChange={this.handleQueryChange}
-          />
-        <InputGroup.Append>
-          <Button variant="primary" type="submit" value="Submit">查询进度</Button>
-        </InputGroup.Append>
-      </InputGroup>
+        <Form onSubmit={this.handleSubmit}>
+          <InputGroup className="mb-3">
+            <InputGroup.Prepend>
+              <Form.Control
+                as="select"
+                value={this.state.type || '请选择类别'}
+                onChange={this.handleTypeChange}
+              >
+                <option>搜索全部</option>
+                <option>姓名</option>
+                <option value='类别'>报名类别（如OL28）</option>
+                <option>报名id</option>
+                <option>个人id</option>
+              </Form.Control>
+            </InputGroup.Prepend>
+            <Form.Control
+              placeholder="请输入搜索内容"
+              aria-label="请输入搜索内容"
+              aria-describedby="basic-addon2"
+              type="text"
+              value={this.state.query || ''}
+              onChange={this.handleQueryChange}
+            />
+            <InputGroup.Append>
+              <Button variant="primary" type="submit" value="Submit">搜索</Button>
+            </InputGroup.Append>
+          </InputGroup>
 
 
-    </Form>
-  <div>
-    {
-      this.state.loading?<Loading message="查询中..." />:null
-    }
-  </div>
-  </Container>
+        </Form>
+        <div>
+          {
+            this.state.loading ? <Loading message="查询中..." /> : null
+          }
+        </div>
+      </Container>
     );
   }
 }
